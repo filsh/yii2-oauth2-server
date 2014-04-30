@@ -1,0 +1,24 @@
+{
+    "name": "filsh/yii2-oauth2-server",
+    "description": "OAuth2 Server for PHP",
+    "keywords": ["yii", "extension", "widget", "cool"],
+    "homepage": "https://github.com/Filsh/yii2-oauth2-server",
+    "type": "yii2-extension",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Igor Maliy",
+            "email": "imaliy.filsh@gmail.com"
+        }
+    ],
+    "require": {
+        "php":">=5.3.9",
+        "yiisoft/yii2": "*",
+        "bshaffer/oauth2-server-php": "v1.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "filsh\\oauth2server\\": ""
+        }
+    }
+}
