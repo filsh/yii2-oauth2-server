@@ -5,7 +5,7 @@ namespace filsh\yii2\oauth2server\filters;
 use Yii;
 use yii\base\Controller;
 
-class ExceptionFilter extends yii\base\Behavior
+class ErrorToExceptionFilter extends yii\base\Behavior
 {
     public function events()
     {
@@ -20,12 +20,17 @@ class ExceptionFilter extends yii\base\Behavior
     public function afterAction($event)
     {
         $response = Yii::$app->getModule('oauth2')->getServer()->getResponse();
-        if($response !== null && !$response->isSuccessful()) {
+        
+        $isValid = true;
+        if($response !== null) {
+            $isValid = $response->isInformational() || $response->isSuccessful() || $response->isRedirection();
+        }
+        if(!$isValid) {
             $status = $response->getStatusCode();
             // TODO: необходимо также пробрасывать error_uri
             $message = $response->getParameter('error_description');
             if($message === null) {
-                $message = P::t('yii', 'An internal server error occurred.');
+                $message = Yii::t('yii', 'An internal server error occurred.');
             }
             throw new \yii\web\HttpException($status, $message);
         }

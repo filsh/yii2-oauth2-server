@@ -4,24 +4,16 @@ namespace filsh\yii2\oauth2server\filters\auth;
 
 use \Yii;
 
-class QueryParamAuth extends \yii\filters\auth\QueryParamAuth
+class CompositeAuth extends \yii\filters\auth\CompositeAuth
 {
-    /**
-     * @inheritdoc
-     */
-    public $tokenParam = 'access_token';
-    
-    /**
-     * @inheritdoc
-     */
     public function authenticate($user, $request, $response)
     {
         $oauthsServer = Yii::$app->getModule('oauth2')->getServer();
         $oauthRequest = Yii::$app->getModule('oauth2')->getRequest();
-        if (!$oauthsServer->verifyResourceRequest($oauthRequest)) {
-            $this->handleFailure($response);
-        } else {
+        if ($oauthsServer->verifyResourceRequest($oauthRequest)) {
             return parent::authenticate($user, $request, $response);
         }
+        
+        return null;
     }
 }

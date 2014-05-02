@@ -12,7 +12,20 @@ class Module extends \yii\base\Module
     
     public $storageDefault = 'filsh\yii2\oauth2server\storage\Pdo';
     
+    public $modelClasses = [];
+    
     private $_server;
+    
+    private $_models = [];
+    
+    /**
+     * @inheritdoc
+     */
+    public function init()
+    {
+        parent::init();
+        $this->modelClasses = array_merge($this->getDefaultModelClasses(), $this->modelClasses);
+    }
     
     public function getServer($force = false)
     {
@@ -68,4 +81,38 @@ class Module extends \yii\base\Module
         
         return $storages;
     }
+    
+    /**
+     * Get object instance of model
+     * @param string $name
+     * @param array $config
+     * @return ActiveRecord
+     */
+    public function model($name, $config = [])
+    {
+        // return object if already created
+        if(!empty($this->_models[$name])) {
+            return $this->_models[$name];
+        }
+
+        // create object
+        $className = $this->modelClasses[ucfirst($name)];
+        $this->_models[$name] = Yii::createObject(array_merge(["class" => $className], $config));
+        return $this->_models[$name];
+    }
+    
+    /**
+     * Get default model classes
+     */
+    protected function getDefaultModelClasses()
+    {
+        return [
+            'Clients' => 'filsh\yii2\oauth2server\models\OauthClients',
+            'AccessTokens' => 'filsh\yii2\oauth2server\models\OauthAccessTokens',
+            'AuthorizationCodes' => 'filsh\yii2\oauth2server\models\OauthAuthorizationCodes',
+            'RefreshTokens' => 'filsh\yii2\oauth2server\models\OauthRefreshTokens',
+            'Scopes' => 'filsh\yii2\oauth2server\models\OauthScopes',
+        ];
+    }
+    
 }

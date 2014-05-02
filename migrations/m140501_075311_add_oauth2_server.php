@@ -15,7 +15,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
         try {
             $this->createTable('{{%oauth_clients}}', [
                 'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
-                'client_secret' => Schema::TYPE_STRING . '(32) NOT NULL',
+                'client_secret' => Schema::TYPE_STRING . '(32) DEFAULT NULL',
                 'redirect_uri' => Schema::TYPE_STRING . '(1000) NOT NULL',
                 'grant_types' => Schema::TYPE_STRING . '(100) NOT NULL',
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
@@ -76,7 +76,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
             
             // insert client data
             $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
-                ['testclient', 'testpass', 'http://fake/', 'client_credentials password'],
+                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit'],
             ]);
             
             $transaction->commit();
