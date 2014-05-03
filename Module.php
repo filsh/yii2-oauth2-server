@@ -34,6 +34,9 @@ class Module extends \yii\base\Module
             $server = new \OAuth2\Server($storages, $this->options);
             
             $server->addGrantType(new \OAuth2\GrantType\UserCredentials($storages['user_credentials']));
+            $server->addGrantType(new \OAuth2\GrantType\RefreshToken($storages['refresh_token'], [
+                'always_issue_new_refresh_token' => true
+            ]));
             
             $this->_server = $server;
         }
