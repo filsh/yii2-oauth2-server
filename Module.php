@@ -30,7 +30,7 @@ class Module extends \yii\base\Module
     public function getServer($force = false)
     {
         if($this->_server === null || $force === true) {
-            $storages = $this->createStorage();
+            $storages = $this->createStorages();
             $server = new \OAuth2\Server($storages, $this->options);
             
             $server->addGrantType(new \OAuth2\GrantType\UserCredentials($storages['user_credentials']));
@@ -53,7 +53,7 @@ class Module extends \yii\base\Module
         return new \OAuth2\Response();
     }
     
-    protected function createStorage()
+    public function createStorages()
     {
         $connection = Yii::$app->getDb();
         if(!$connection->getIsActive()) {
