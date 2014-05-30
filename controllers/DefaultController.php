@@ -22,8 +22,8 @@ class DefaultController extends \yii\rest\Controller
     
     public function actionToken()
     {
-        $server = Yii::$app->getModule('oauth2')->getServer();
-        $request = Yii::$app->getModule('oauth2')->getRequest();
+        $server = $this->module->getServer();
+        $request = $this->module->getRequest();
         $response = $server->handleTokenRequest($request);
         
         return $response->getParameters();
