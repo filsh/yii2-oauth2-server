@@ -45,6 +45,19 @@ The next step your shold run migration
 yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations/m140501_075311_add_oauth2_server.php
 ```
 
+this migration create the oauth2 database scheme and insert test user credentials ```testclient:testpass``` for ```http://fake/```
+
+add url rule to urlManager
+
+```php
+'urlManager' => [
+    'rules' => [
+        'POST oauth2/<action:\w+>' => 'oauth2/default/<action>',
+        ...
+    ]
+]
+```
+
 Usage
 -----
 
