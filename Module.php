@@ -53,6 +53,40 @@ class Module extends \yii\base\Module
     {
         return new \OAuth2\Response();
     }
+
+    /**
+     * Set status, headers of current \yii\web\Response by given \OAuth2\Response's, return Response's data.
+     *
+     * @param \OAuth2\Response $response
+     * @param boolean $throwException whether to throw an exception if the given alias is invalid.
+     * @return mixed
+     * @throws \yii\web\HttpException if response status should throw a http exception while $throwException is true.
+     */
+    public function setResponse($response, $throwException = true)
+    {
+        $status = $response->getStatusCode();
+
+        $yiiResponse = Yii::$app->getResponse();
+        $yiiResponse->setStatusCode($status, $response->getStatusText());
+
+        foreach ($response->getHttpHeaders() as $name => $header) {
+            $yiiResponse->getHeaders()->set($name, $header);
+        }
+
+        if ($throwException) {
+            $isValid = $response->isInformational() || $response->isSuccessful() || $response->isRedirection();
+            if(!$isValid) {
+                // TODO: необходимо также пробрасывать error_uri
+                $message = $response->getParameter('error_description');
+                if($message === null) {
+                    $message = Yii::t('yii', 'An internal server error occurred.');
+                }
+                throw new \yii\web\HttpException($status, $message);
+            }
+        }
+
+        return $response->getParameters();
+    }
     
     public function createStorages()
     {
