@@ -33,6 +33,7 @@ class Module extends \yii\base\Module
             $storages = $this->createStorages();
             $server = new \OAuth2\Server($storages, $this->options);
             
+            $server->addGrantType(new \OAuth2\GrantType\AuthorizationCode($storages['authorization_code']));
             $server->addGrantType(new \OAuth2\GrantType\UserCredentials($storages['user_credentials']));
             $server->addGrantType(new \OAuth2\GrantType\RefreshToken($storages['refresh_token'], [
                 'always_issue_new_refresh_token' => true
