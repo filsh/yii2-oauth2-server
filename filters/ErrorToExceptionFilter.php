@@ -5,7 +5,7 @@ namespace filsh\yii2\oauth2server\filters;
 use Yii;
 use yii\base\Controller;
 
-class ErrorToExceptionFilter extends yii\base\Behavior
+class ErrorToExceptionFilter extends \yii\base\Behavior
 {
     public function events()
     {
