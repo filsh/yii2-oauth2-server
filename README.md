@@ -42,7 +42,7 @@ To use this extension,  simply add the following code in your application config
 The next step your shold run migration
 
 ```php
-yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations/m140501_075311_add_oauth2_server.php
+yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations
 ```
 
 this migration create the oauth2 database scheme and insert test user credentials ```testclient:testpass``` for ```http://fake/```
