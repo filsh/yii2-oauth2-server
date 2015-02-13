@@ -14,6 +14,8 @@ class Module extends \yii\base\Module
     
     public $modelClasses = [];
     
+    public $i18n;
+
     private $_server;
     
     private $_models = [];
@@ -25,6 +27,7 @@ class Module extends \yii\base\Module
     {
         parent::init();
         $this->modelClasses = array_merge($this->getDefaultModelClasses(), $this->modelClasses);
+        $this->registerTranslations();
     }
     
     public function getServer($force = false)
@@ -104,6 +107,21 @@ class Module extends \yii\base\Module
         return $this->_models[$name];
     }
     
+    /**
+     * Register translations for this module
+     */
+    public function registerTranslations()
+    {
+        Yii::setAlias('@oauth2server', dirname(__FILE__));
+        if (empty($this->i18n)) {
+            $this->i18n = [
+                'class' => 'yii\i18n\PhpMessageSource',
+                'basePath' => '@oauth2server/messages',
+            ];
+        }
+        Yii::$app->i18n->translations['oauth2server'] = $this->i18n;
+    }
+
     /**
      * Get default model classes
      */

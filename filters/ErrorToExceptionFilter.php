@@ -28,7 +28,7 @@ class ErrorToExceptionFilter extends yii\base\Behavior
         if(!$isValid) {
             $status = $response->getStatusCode();
             // TODO: необходимо также пробрасывать error_uri
-            $message = $response->getParameter('error_description');
+            $message = Yii::t('oauth2server', $response->getParameter('error_description'));
             if($message === null) {
                 $message = Yii::t('yii', 'An internal server error occurred.');
             }
