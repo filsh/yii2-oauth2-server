@@ -17,11 +17,19 @@ use \Yii;
  *     'storageMap' => [
  *         'user_credentials' => 'common\models\User'
  *     ],
- *     'storageOptions' => [
+ *     'grantTypes' => [
+ *         'client_credentials' => [
+ *             'class' => '\OAuth2\GrantType\ClientCredentials',
+ *             'allow_public_clients' => false
+ *         ],
+ *         'user_credentials' => [
+ *             'class' => '\OAuth2\GrantType\UserCredentials'
+ *         ],
  *         'refresh_token' => [
+ *             'class' => '\OAuth2\GrantType\RefreshToken',
  *             'always_issue_new_refresh_token' => true
  *         ]
- *     ]
+ *     ],
  * ]
  * ```
  */
@@ -31,9 +39,9 @@ class Module extends \yii\base\Module
     
     public $storageMap = [];
     
-    public $storageOptions = [];
-    
     public $storageDefault = 'filsh\yii2\oauth2server\storage\Pdo';
+    
+    public $grantTypes = [];
     
     public $modelClasses = [];
     
@@ -64,8 +72,20 @@ class Module extends \yii\base\Module
             $storages = $this->createStorages();
             $server = new \OAuth2\Server($storages, $this->options);
             
-            $server->addGrantType(new \OAuth2\GrantType\UserCredentials($storages['user_credentials']));
-            $server->addGrantType(new \OAuth2\GrantType\RefreshToken($storages['refresh_token'], $this->getStorageOptions('refresh_token')));
+            foreach($this->grantTypes as $name => $options) {
+                if(!isset($storages[$name]) || empty($options['class'])) {
+                    throw new \yii\base\InvalidConfigException('Invalid grant types configuration.');
+                }
+                
+                $class = $options['class'];
+                unset($options['class']);
+                
+                $reflection = new \ReflectionClass($class);
+                $config = array_merge([0 => $storages[$name]], [$options]);
+
+                $instance = $reflection->newInstanceArgs($config);
+                $server->addGrantType($instance);
+            }
             
             $this->_server = $server;
         }
@@ -170,17 +190,5 @@ class Module extends \yii\base\Module
             'RefreshTokens' => 'filsh\yii2\oauth2server\models\OauthRefreshTokens',
             'Scopes' => 'filsh\yii2\oauth2server\models\OauthScopes',
         ];
-    }
-    
-    /**
-     * Get storage options by name
-     * @param string $name name of storage name
-     * @param array $default default options
-     * @return array
-     */
-    protected function getStorageOptions($name, $default = [])
-    {
-        $options = isset($this->storageOptions[$name]) ? $this->storageOptions[$name] : [];
-        return array_merge($default, $options);
     }
 }

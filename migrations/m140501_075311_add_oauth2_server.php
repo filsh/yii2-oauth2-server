@@ -74,6 +74,13 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'PRIMARY KEY (`username`)',
             ], $tableOptions);
             
+            $this->createTable('{{%oauth_public_keys}}', [
+                'client_id' => Schema::TYPE_STRING . '(255) NOT NULL',
+                'public_key' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                'private_key' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
+                'encryption_algorithm' => Schema::TYPE_STRING . '(100) DEFAULT \'RS256\'',
+            ], $tableOptions);
+            
             // insert client data
             $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
                 ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit'],
