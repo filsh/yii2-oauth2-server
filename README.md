@@ -33,8 +33,21 @@ To use this extension,  simply add the following code in your application config
     ],
     'storageMap' => [
         'user_credentials' => 'common\models\User'
-    ]
-],
+    ],
+    'grantTypes' => [
+        'client_credentials' => [
+            'class' => '\OAuth2\GrantType\ClientCredentials',
+            'allow_public_clients' => false
+        ],
+        'user_credentials' => [
+            'class' => '\OAuth2\GrantType\UserCredentials'
+        ],
+        'refresh_token' => [
+            'class' => '\OAuth2\GrantType\RefreshToken',
+            'always_issue_new_refresh_token' => true
+        ]
+    ],
+]
 ```
 
 ```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
