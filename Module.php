@@ -4,11 +4,34 @@ namespace filsh\yii2\oauth2server;
 
 use \Yii;
 
+/**
+ * For example,
+ * 
+ * ```php
+ * 'oauth2' => [
+ *     'class' => 'filsh\yii2\oauth2server\Module',
+ *     'options' => [
+ *         'token_param_name' => 'accessToken',
+ *         'access_lifetime' => 3600
+ *     ],
+ *     'storageMap' => [
+ *         'user_credentials' => 'common\models\User'
+ *     ],
+ *     'storageOptions' => [
+ *         'refresh_token' => [
+ *             'always_issue_new_refresh_token' => true
+ *         ]
+ *     ]
+ * ]
+ * ```
+ */
 class Module extends \yii\base\Module
 {
     public $options = [];
     
     public $storageMap = [];
+    
+    public $storageOptions = [];
     
     public $storageDefault = 'filsh\yii2\oauth2server\storage\Pdo';
     
@@ -30,6 +53,11 @@ class Module extends \yii\base\Module
         $this->registerTranslations();
     }
     
+    /**
+     * Get oauth2 server instance
+     * @param type $force
+     * @return \OAuth2\Server
+     */
     public function getServer($force = false)
     {
         if($this->_server === null || $force === true) {
@@ -37,25 +65,35 @@ class Module extends \yii\base\Module
             $server = new \OAuth2\Server($storages, $this->options);
             
             $server->addGrantType(new \OAuth2\GrantType\UserCredentials($storages['user_credentials']));
-            $server->addGrantType(new \OAuth2\GrantType\RefreshToken($storages['refresh_token'], [
-                'always_issue_new_refresh_token' => true
-            ]));
+            $server->addGrantType(new \OAuth2\GrantType\RefreshToken($storages['refresh_token'], $this->getStorageOptions('refresh_token')));
             
             $this->_server = $server;
         }
         return $this->_server;
     }
     
+    /**
+     * Get oauth2 request instance from global variables
+     * @return \OAuth2\Request
+     */
     public function getRequest()
     {
         return \OAuth2\Request::createFromGlobals();
     }
     
+    /**
+     * Get oauth2 response instance
+     * @return \OAuth2\Response
+     */
     public function getResponse()
     {
         return new \OAuth2\Response();
     }
     
+    /**
+     * Create storages
+     * @return type
+     */
     public function createStorages()
     {
         $connection = Yii::$app->getDb();
@@ -96,19 +134,16 @@ class Module extends \yii\base\Module
      */
     public function model($name, $config = [])
     {
-        // return object if already created
-        if(!empty($this->_models[$name])) {
-            return $this->_models[$name];
+        if(!isset($this->_models[$name])) {
+            $className = $this->modelClasses[ucfirst($name)];
+            $this->_models[$name] = Yii::createObject(array_merge(['class' => $className], $config));
         }
-
-        // create object
-        $className = $this->modelClasses[ucfirst($name)];
-        $this->_models[$name] = Yii::createObject(array_merge(["class" => $className], $config));
         return $this->_models[$name];
     }
     
     /**
      * Register translations for this module
+     * @return array
      */
     public function registerTranslations()
     {
@@ -124,6 +159,7 @@ class Module extends \yii\base\Module
 
     /**
      * Get default model classes
+     * @return array
      */
     protected function getDefaultModelClasses()
     {
@@ -136,4 +172,15 @@ class Module extends \yii\base\Module
         ];
     }
     
+    /**
+     * Get storage options by name
+     * @param string $name name of storage name
+     * @param array $default default options
+     * @return array
+     */
+    protected function getStorageOptions($name, $default = [])
+    {
+        $options = isset($this->storageOptions[$name]) ? $this->storageOptions[$name] : [];
+        return array_merge($default, $options);
+    }
 }
