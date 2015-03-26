@@ -6,13 +6,17 @@
     "type": "yii2-extension",
     "license": "MIT",
     "support": {
-        "email": "imaliy.mobilejazz@gmail.com",
+        "email": "mtorruella@mobilejazz.com",
         "source": "https://github.com/mobilejazz/yii2-oauth2-server"
     },
     "authors": [
         {
             "name": "Igor Maliy",
-            "email": "imaliy.mobilejazz@gmail.com"
+            "email": "imaliy.filsh@gmail.com"
+        },
+        {
+            "name": "MobileJazz",
+            "email": "mtorruella@mobilejazz.com"
         }
     ],
     "require": {
@@ -23,5 +27,6 @@
         "psr-4": {
             "mobilejazz\\yii2\\oauth2server\\": ""
         }
-    }
+    },
+    "version":"1.0.3"
 }
