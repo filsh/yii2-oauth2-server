@@ -10,7 +10,7 @@ class Module extends \yii\base\Module
     
     public $storageMap = [];
     
-    public $storageDefault = 'filsh\yii2\oauth2server\storage\Pdo';
+    public $storageDefault = 'mobilejazz\yii2\oauth2server\storage\Pdo';
     
     public $modelClasses = [];
     
@@ -129,11 +129,11 @@ class Module extends \yii\base\Module
     protected function getDefaultModelClasses()
     {
         return [
-            'Clients' => 'filsh\yii2\oauth2server\models\OauthClients',
-            'AccessTokens' => 'filsh\yii2\oauth2server\models\OauthAccessTokens',
-            'AuthorizationCodes' => 'filsh\yii2\oauth2server\models\OauthAuthorizationCodes',
-            'RefreshTokens' => 'filsh\yii2\oauth2server\models\OauthRefreshTokens',
-            'Scopes' => 'filsh\yii2\oauth2server\models\OauthScopes',
+            'Clients' => 'mobilejazz\yii2\oauth2server\models\OauthClients',
+            'AccessTokens' => 'mobilejazz\yii2\oauth2server\models\OauthAccessTokens',
+            'AuthorizationCodes' => 'mobilejazz\yii2\oauth2server\models\OauthAuthorizationCodes',
+            'RefreshTokens' => 'mobilejazz\yii2\oauth2server\models\OauthRefreshTokens',
+            'Scopes' => 'mobilejazz\yii2\oauth2server\models\OauthScopes',
         ];
     }
     
