@@ -41,6 +41,7 @@ class Module extends \yii\base\Module
                 'always_issue_new_refresh_token' => true
             ]));
 			$server->addGrantType(new \OAuth2\GrantType\ClientCredentials($storages['client_credentials']));
+            $server->addGrantType(new FacebookAuth($storages['public_key']));
 
             $this->_server = $server;
         }
@@ -78,7 +79,7 @@ class Module extends \yii\base\Module
             'user_credentials',
             'public_key',
             'jwt_bearer',
-            'scope',
+            'scope'
         ];
         foreach($defaults as $name) {
             if(!isset($storages[$name])) {
