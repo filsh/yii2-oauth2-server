@@ -1,6 +1,6 @@
 <?php
 
-namespace filsh\yii2\oauth2server;
+namespace mobilejazz\yii2\oauth2server;
 
 use \Yii;
 

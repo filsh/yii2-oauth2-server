@@ -1,6 +1,6 @@
 <?php
 
-namespace filsh\yii2\oauth2server\filters;
+namespace mobilejazz\yii2\oauth2server\filters;
 
 use Yii;
 use yii\base\Controller;

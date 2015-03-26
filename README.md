@@ -67,8 +67,8 @@ To use this extension,  simply add the behaviors for your base controller:
 use yii\helpers\ArrayHelper;
 use yii\filters\auth\HttpBearerAuth;
 use yii\filters\auth\QueryParamAuth;
-use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
-use filsh\yii2\oauth2server\filters\auth\CompositeAuth;
+use mobilejazz\yii2\oauth2server\filters\ErrorToExceptionFilter;
+use mobilejazz\yii2\oauth2server\filters\auth\CompositeAuth;
 
 class Controller extends \yii\rest\Controller
 {
