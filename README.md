@@ -36,14 +36,14 @@ To use this extension,  simply add the following code in your application config
     ],
     'grantTypes' => [
         'client_credentials' => [
-            'class' => '\OAuth2\GrantType\ClientCredentials',
+            'class' => 'OAuth2\GrantType\ClientCredentials',
             'allow_public_clients' => false
         ],
         'user_credentials' => [
-            'class' => '\OAuth2\GrantType\UserCredentials'
+            'class' => 'OAuth2\GrantType\UserCredentials'
         ],
         'refresh_token' => [
-            'class' => '\OAuth2\GrantType\RefreshToken',
+            'class' => 'OAuth2\GrantType\RefreshToken',
             'always_issue_new_refresh_token' => true
         ]
     ],
