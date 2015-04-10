@@ -48,6 +48,8 @@ class Module extends \yii\base\Module
     public $i18n;
 
     private $_server;
+
+    private $_request;
     
     private $_models = [];
     
@@ -96,9 +98,12 @@ class Module extends \yii\base\Module
      * Get oauth2 request instance from global variables
      * @return \OAuth2\Request
      */
-    public function getRequest()
+    public function getRequest($force = false)
     {
-        return \OAuth2\Request::createFromGlobals();
+        if ($this->_request === null || $force) {
+            $this->_request = \OAuth2\Request::createFromGlobals();
+        };
+        return $this->_request;
     }
     
     /**
@@ -109,7 +114,7 @@ class Module extends \yii\base\Module
     {
         return new \OAuth2\Response();
     }
-    
+
     /**
      * Create storages
      * @return type
