@@ -64,6 +64,12 @@ class Module extends \yii\base\Module
     }
     
     /**
+     * yii\base\Module requires $id in the constructor.
+     */
+    public function __construct() {
+        parent::__construct('oauth2-server-php-Module');
+    }
+    /**
      * Get oauth2 server instance
      * @param type $force
      * @return \OAuth2\Server
