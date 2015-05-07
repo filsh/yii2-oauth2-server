@@ -133,6 +133,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
             $this->dropTable('{{%oauth_authorization_codes}}');
             $this->dropTable('{{%oauth_refresh_tokens}}');
             $this->dropTable('{{%oauth_access_tokens}}');
+            $this->dropTable('{{%oauth_public_keys}}');
             $this->dropTable('{{%oauth_clients}}');
 
             $transaction->commit();
