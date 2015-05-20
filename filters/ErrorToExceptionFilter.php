@@ -5,13 +5,13 @@ namespace filsh\yii2\oauth2server\filters;
 use Yii;
 use yii\base\Controller;
 
-class ErrorToExceptionFilter extends yii\base\Behavior
+class ErrorToExceptionFilter extends \yii\base\Behavior
 {
     public function events()
     {
         return [Controller::EVENT_AFTER_ACTION => 'afterAction'];
     }
-    
+
     /**
      * @param ActionEvent $event
      * @return boolean
@@ -20,7 +20,7 @@ class ErrorToExceptionFilter extends yii\base\Behavior
     public function afterAction($event)
     {
         $response = Yii::$app->getModule('oauth2')->getServer()->getResponse();
-        
+
         $isValid = true;
         if($response !== null) {
             $isValid = $response->isInformational() || $response->isSuccessful() || $response->isRedirection();
