@@ -1,7 +1,7 @@
 {
     "name": "filsh/yii2-oauth2-server",
     "description": "OAuth2 Server for PHP",
-    "keywords": ["yii", "extension", "widget"],
+    "keywords": ["yii", "extension", "module", "oauth", "oauth2"],
     "homepage": "https://github.com/filsh/yii2-oauth2-server",
     "type": "yii2-extension",
     "license": "MIT",
@@ -22,6 +22,11 @@
     "autoload": {
         "psr-4": {
             "filsh\\yii2\\oauth2server\\": ""
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
         }
     }
 }
