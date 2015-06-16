@@ -4,6 +4,7 @@ namespace filsh\yii2\oauth2server\filters;
 
 use Yii;
 use yii\base\Controller;
+use filsh\yii2\oauth2server\Module;
 
 class ErrorToExceptionFilter extends \yii\base\Behavior
 {
@@ -28,9 +29,9 @@ class ErrorToExceptionFilter extends \yii\base\Behavior
         if(!$isValid) {
             $status = $response->getStatusCode();
             // TODO: необходимо также пробрасывать error_uri
-            $message = Yii::t('oauth2server', $response->getParameter('error_description'));
+            $message = Module::t('common', $response->getParameter('error_description'));
             if($message === null) {
-                $message = Yii::t('yii', 'An internal server error occurred.');
+                $message = Module::t('common', 'An internal server error occurred.');
             }
             throw new \yii\web\HttpException($status, $message);
         }
