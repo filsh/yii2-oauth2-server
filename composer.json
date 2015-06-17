@@ -17,7 +17,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "bshaffer/oauth2-server-php": "v1.3"
+        "bshaffer/oauth2-server-php": "~1.7.1"
     },
     "autoload": {
         "psr-4": {
