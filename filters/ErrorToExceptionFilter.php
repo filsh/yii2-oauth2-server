@@ -20,7 +20,7 @@ class ErrorToExceptionFilter extends \yii\base\Behavior
      */
     public function afterAction($event)
     {
-        $response = Yii::$app->getModule('oauth2')->getServer()->getResponse();
+        $response = Yii::$app->getModule('oauth2')->get('response');
 
         $isValid = true;
         if($response !== null) {

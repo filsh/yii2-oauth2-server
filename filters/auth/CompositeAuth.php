@@ -11,9 +11,8 @@ class CompositeAuth extends \yii\filters\auth\CompositeAuth
      */
     public function beforeAction($action)
     {
-        $oauthServer = Yii::$app->getModule('oauth2')->getServer();
-        $oauthRequest = Yii::$app->getModule('oauth2')->getRequest();
-        $oauthServer->verifyResourceRequest($oauthRequest);
+        $server = Yii::$app->getModule('oauth2')->getServer();
+        $server->verifyResourceRequest();
         
         return parent::beforeAction($action);
     }
