@@ -22,10 +22,7 @@ class DefaultController extends \yii\rest\Controller
     
     public function actionToken()
     {
-        $server = $this->module->getServer();
-        $request = $this->module->getRequest();
-        $response = $server->handleTokenRequest($request);
-        
+        $response = $this->module->get('server')->handleTokenRequest();
         return $response->getParameters();
     }
 }
