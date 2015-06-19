@@ -6,7 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
 
-class DefaultController extends \yii\rest\Controller
+class RestController extends \yii\rest\Controller
 {
     /**
      * @inheritdoc

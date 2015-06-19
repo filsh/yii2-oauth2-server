@@ -2,6 +2,8 @@
 
 namespace filsh\yii2\oauth2server;
 
+use yii\web\GroupUrlRule;
+
 class Bootstrap implements \yii\base\BootstrapInterface
 {
     /**
