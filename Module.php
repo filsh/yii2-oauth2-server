@@ -11,26 +11,20 @@ use yii\i18n\PhpMessageSource;
  * ```php
  * 'oauth2' => [
  *     'class' => 'filsh\yii2\oauth2server\Module',
- *     'options' => [
- *         'token_param_name' => 'accessToken',
- *         'access_lifetime' => 3600
- *     ],
+ *     'tokenParamName' => 'accessToken',
+ *     'tokenAccessLifetime' => 3600 * 24,
  *     'storageMap' => [
- *         'user_credentials' => 'common\models\User'
+ *         'user_credentials' => 'common\models\User',
  *     ],
  *     'grantTypes' => [
- *         'client_credentials' => [
- *             'class' => '\OAuth2\GrantType\ClientCredentials',
- *             'allow_public_clients' => false
- *         ],
  *         'user_credentials' => [
- *             'class' => '\OAuth2\GrantType\UserCredentials'
+ *             'class' => 'OAuth2\GrantType\UserCredentials',
  *         ],
  *         'refresh_token' => [
- *             'class' => '\OAuth2\GrantType\RefreshToken',
+ *             'class' => 'OAuth2\GrantType\RefreshToken',
  *             'always_issue_new_refresh_token' => true
  *         ]
- *     ],
+ *     ]
  * ]
  * ```
  */
@@ -49,12 +43,18 @@ class Module extends \yii\base\Module
     public $storageMap = [];
     
     /**
-     * @var array GrantTypes map
+     * @var array GrantTypes collection
      */
     public $grantTypes = [];
     
+    /**
+     * @var string name of access token parameter
+     */
     public $tokenParamName;
     
+    /**
+     * @var type max access lifetime
+     */
     public $tokenAccessLifetime;
     
     /**
@@ -95,7 +95,7 @@ class Module extends \yii\base\Module
                 $instance = $reflection->newInstanceArgs($config);
                 $grantTypes[$name] = $instance;
             }
-
+            
             $server = \Yii::$container->get(Server::className(), [
                 $this,
                 $storages,

@@ -17,6 +17,12 @@ class Server extends \OAuth2\Server
         parent::__construct($storage, $config, $grantTypes, $responseTypes, $tokenType, $scopeUtil, $clientAssertionType);
     }
     
+    public function createAccessToken($clientId, $userId, $scope = null, $includeRefreshToken = true)
+    {
+        $accessToken = $this->getAccessTokenResponseType();
+        return $accessToken->createAccessToken($clientId, $userId, $scope, $includeRefreshToken);
+    }
+    
     public function verifyResourceRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null, $scope = null)
     {
         if($request === null) {
