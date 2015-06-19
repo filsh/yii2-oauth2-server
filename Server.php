@@ -17,19 +17,19 @@ class Server extends \OAuth2\Server
         parent::__construct($storage, $config, $grantTypes, $responseTypes, $tokenType, $scopeUtil, $clientAssertionType);
     }
     
-    public function handleTokenRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
-    {
-        if($request === null) {
-            $request = $this->module->get('request');
-        }
-        return parent::handleTokenRequest($request, $response);
-    }
-    
     public function verifyResourceRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null, $scope = null)
     {
         if($request === null) {
-            $request = $this->module->get('request');
+            $request = $this->module->getRequest();
         }
         parent::verifyResourceRequest($request, $response, $scope);
+    }
+    
+    public function handleTokenRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
+    {
+        if($request === null) {
+            $request = $this->module->getRequest();
+        }
+        return parent::handleTokenRequest($request, $response);
     }
 }
