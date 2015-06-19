@@ -48,6 +48,9 @@ class Module extends \yii\base\Module
      */
     public $storageMap = [];
     
+    /**
+     * @var array GrantTypes map
+     */
     public $grantTypes = [];
     
     public $tokenParamName;
@@ -60,8 +63,84 @@ class Module extends \yii\base\Module
     public function init()
     {
         parent::init();
-        $this->registerComponents();
         $this->registerTranslations();
+    }
+    
+    /**
+     * Gets Oauth2 Server
+     * 
+     * @return \filsh\yii2\oauth2server\Server
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function getServer()
+    {
+        if(!$this->has('server')) {
+            $storages = [];
+            foreach(array_keys($this->storageMap) as $name) {
+                $storages[$name] = \Yii::$container->get($name);
+            }
+            
+            $grantTypes = [];
+            foreach($this->grantTypes as $name => $options) {
+                if(!isset($storages[$name]) || empty($options['class'])) {
+                    throw new \yii\base\InvalidConfigException('Invalid grant types configuration.');
+                }
+
+                $class = $options['class'];
+                unset($options['class']);
+
+                $reflection = new \ReflectionClass($class);
+                $config = array_merge([0 => $storages[$name]], [$options]);
+
+                $instance = $reflection->newInstanceArgs($config);
+                $grantTypes[$name] = $instance;
+            }
+
+            $server = \Yii::$container->get(Server::className(), [
+                $this,
+                $storages,
+                [
+                    'token_param_name' => $this->tokenParamName,
+                    'access_lifetime' => $this->tokenAccessLifetime,
+                    /** add more ... */
+                ],
+                $grantTypes
+            ]);
+
+            $this->set('server', $server);
+        }
+        return $this->get('server');
+    }
+    
+    public function getRequest()
+    {
+        if(!$this->has('request')) {
+            $this->set('request', Request::createFromGlobals());
+        }
+        return $this->get('request');
+    }
+    
+    public function getResponse()
+    {
+        if(!$this->has('response')) {
+            $this->set('response', new Response());
+        }
+        return $this->get('response');
+    }
+
+    /**
+     * Register translations for this module
+     * 
+     * @return array
+     */
+    public function registerTranslations()
+    {
+        if(!isset(Yii::$app->get('i18n')->translations['modules/oauth2/*'])) {
+            Yii::$app->get('i18n')->translations['modules/oauth2/*'] = [
+                'class'    => PhpMessageSource::className(),
+                'basePath' => __DIR__ . '/messages',
+            ];
+        }
     }
     
     /**
@@ -76,62 +155,5 @@ class Module extends \yii\base\Module
     public static function t($category, $message, $params = [], $language = null)
     {
         return Yii::t('modules/oauth2/' . $category, $message, $params, $language);
-    }
-    
-    protected function registerComponents()
-    {
-        $this->setComponents([
-            'server' => $this->createServer(),
-            'request' => Request::createFromGlobals(),
-            'response' => new Response()
-        ]);
-    }
-    
-    /**
-     * Register translations for this module
-     * 
-     * @return array
-     */
-    protected function registerTranslations()
-    {
-        if(!isset(Yii::$app->get('i18n')->translations['modules/oauth2/*'])) {
-            Yii::$app->get('i18n')->translations['modules/oauth2/*'] = [
-                'class'    => PhpMessageSource::className(),
-                'basePath' => __DIR__ . '/messages',
-            ];
-        }
-    }
-    
-    protected function createServer()
-    {
-        $storages = [];
-        foreach(array_keys($this->storageMap) as $name) {
-            $storages[$name] = \Yii::$container->get($name);
-        }
-        $server = \Yii::$container->get(Server::className(), [
-            $storages,
-            [
-                'token_param_name' => $this->tokenParamName,
-                'access_lifetime' => $this->tokenAccessLifetime,
-                /** add more ... */
-            ]
-        ]);
-
-        foreach($this->grantTypes as $name => $options) {
-            if(!isset($storages[$name]) || empty($options['class'])) {
-                throw new \yii\base\InvalidConfigException('Invalid grant types configuration.');
-            }
-
-            $class = $options['class'];
-            unset($options['class']);
-
-            $reflection = new \ReflectionClass($class);
-            $config = array_merge([0 => $storages[$name]], [$options]);
-
-            $instance = $reflection->newInstanceArgs($config);
-            $server->addGrantType($instance);
-        }
-        
-        return $server;
     }
 }
