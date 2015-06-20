@@ -17,7 +17,7 @@ php composer.phar require --prefer-dist filsh/yii2-oauth2-server "*"
 or add
 
 ```json
-"filsh/yii2-oauth2-server": "*"
+"filsh/yii2-oauth2-server": "~2.0.0"
 ```
 
 to the require section of your composer.json.
@@ -27,26 +27,20 @@ To use this extension,  simply add the following code in your application config
 ```php
 'oauth2' => [
     'class' => 'filsh\yii2\oauth2server\Module',
-    'options' => [
-        'token_param_name' => 'accessToken',
-        'access_lifetime' => 3600 * 24
-    ],
+    'tokenParamName' => 'accessToken',
+    'tokenAccessLifetime' => 3600 24,
     'storageMap' => [
-        'user_credentials' => 'common\models\User'
+        'user_credentials' => 'common\models\User',
     ],
     'grantTypes' => [
-        'client_credentials' => [
-            'class' => 'OAuth2\GrantType\ClientCredentials',
-            'allow_public_clients' => false
-        ],
         'user_credentials' => [
-            'class' => 'OAuth2\GrantType\UserCredentials'
+            'class' => 'OAuth2\GrantType\UserCredentials',
         ],
         'refresh_token' => [
             'class' => 'OAuth2\GrantType\RefreshToken',
             'always_issue_new_refresh_token' => true
         ]
-    ],
+    ]
 ]
 ```
 
