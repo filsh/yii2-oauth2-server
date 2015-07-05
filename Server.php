@@ -28,7 +28,7 @@ class Server extends \OAuth2\Server
         if($request === null) {
             $request = $this->module->getRequest();
         }
-        parent::verifyResourceRequest($request, $response, $scope);
+        return parent::verifyResourceRequest($request, $response, $scope);
     }
     
     public function handleTokenRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
