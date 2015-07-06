@@ -48,12 +48,12 @@ class Module extends \yii\base\Module
     public $grantTypes = [];
     
     /**
-     * @var string name of access token parameter
+     * @var string Name of access token parameter
      */
     public $tokenParamName;
     
     /**
-     * @var type max access lifetime
+     * @var integer Max access token lifetime in seconds
      */
     public $tokenAccessLifetime;
     
