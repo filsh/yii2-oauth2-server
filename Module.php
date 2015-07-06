@@ -46,14 +46,19 @@ class Module extends \yii\base\Module
      * @var array GrantTypes collection
      */
     public $grantTypes = [];
+
+    /**
+     * @var array ResponseTypes collection
+     */
+    public $responseTypes = [];
     
     /**
-     * @var string name of access token parameter
+     * @var string Name of access token parameter
      */
     public $tokenParamName;
     
     /**
-     * @var type max access lifetime
+     * @var integer Max access token lifetime in seconds
      */
     public $tokenAccessLifetime;
     
@@ -104,7 +109,8 @@ class Module extends \yii\base\Module
                     'access_lifetime' => $this->tokenAccessLifetime,
                     /** add more ... */
                 ],
-                $grantTypes
+                $grantTypes,
+                $this->responseTypes
             ]);
 
             $this->set('server', $server);
