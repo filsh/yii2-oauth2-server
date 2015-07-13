@@ -6,14 +6,36 @@ use \Yii;
 
 class CompositeAuth extends \yii\filters\auth\CompositeAuth
 {
+
     /**
      * @inheritdoc
      */
     public function beforeAction($action)
     {
-        $server = Yii::$app->getModule('oauth2')->getServer();
+        $module = $this->getModuleNested('oauth2', Yii::$app);
+
+        $server = $module->getServer();
         $server->verifyResourceRequest();
-        
+
         return parent::beforeAction($action);
     }
+
+    public function getModuleNested($needle, $app)
+    {
+        /** @var $module Module */
+        if (($module = $app->getModule($needle)) !== null)
+            return $module;
+
+        foreach ($app->getModules() as $id => $module) {
+            $server = $app->getModule($id)->getModule($needle);
+            if ($server != null) {
+                return $server;
+            } else {
+                $this->getModuleNested($module->getModules());
+            }
+        }
+
+        return false;
+    }
+
 }
