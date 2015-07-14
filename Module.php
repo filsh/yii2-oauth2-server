@@ -63,6 +63,11 @@ class Module extends \yii\base\Module
     public $tokenAccessLifetime;
     
     /**
+     * @var integer Max refresh token lifetime in seconds
+     */
+    public $tokenRefreshLifetime;
+    
+    /**
      * @inheritdoc
      */
     public function init()
@@ -107,6 +112,7 @@ class Module extends \yii\base\Module
                 [
                     'token_param_name' => $this->tokenParamName,
                     'access_lifetime' => $this->tokenAccessLifetime,
+                    'refresh_token_lifetime' => $this->tokenRefreshLifetime,
                     /** add more ... */
                 ],
                 $grantTypes,
