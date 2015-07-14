@@ -2,6 +2,8 @@
 
 namespace filsh\yii2\oauth2server\storage;
 
+use Yii;
+
 class Pdo extends \OAuth2\Storage\Pdo
 {
     public $dsn;
@@ -31,5 +33,17 @@ class Pdo extends \OAuth2\Storage\Pdo
         }
         
         parent::__construct($connection, $config);
+
+        $this->config = array_merge(array(
+            'client_table' => Yii::$app->db->tablePrefix.'oauth_clients',
+            'access_token_table' => Yii::$app->db->tablePrefix.'oauth_access_tokens',
+            'refresh_token_table' => Yii::$app->db->tablePrefix.'oauth_refresh_tokens',
+            'code_table' => Yii::$app->db->tablePrefix.'oauth_authorization_codes',
+            'user_table' => Yii::$app->db->tablePrefix.'oauth_users',
+            'jwt_table'  => Yii::$app->db->tablePrefix.'oauth_jwt',
+            'jti_table'  => Yii::$app->db->tablePrefix.'oauth_jti',
+            'scope_table'  => Yii::$app->db->tablePrefix.'oauth_scopes',
+            'public_key_table'  => Yii::$app->db->tablePrefix.'oauth_public_keys',
+        ), $config);
     }
 }
