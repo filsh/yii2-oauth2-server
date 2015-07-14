@@ -28,8 +28,10 @@ use yii\i18n\PhpMessageSource;
  * ]
  * ```
  */
-class Module extends \yii\base\Module
+class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
 {
+    use BootstrapTrait;
+    
     const VERSION = '2.0.0';
     
     /**
@@ -66,6 +68,18 @@ class Module extends \yii\base\Module
      * @var integer Max refresh token lifetime in seconds
      */
     public $tokenRefreshLifetime;
+    
+    /**
+     * @inheritdoc
+     */
+    public function bootstrap($app)
+    {
+        $this->initModule($this);
+        
+        if ($app instanceof \yii\console\Application) {
+            $this->controllerNamespace = 'filsh\yii2\oauth2server\commands';
+        }
+    }
     
     /**
      * @inheritdoc

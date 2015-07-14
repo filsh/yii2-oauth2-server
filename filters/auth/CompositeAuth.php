@@ -2,7 +2,7 @@
 
 namespace filsh\yii2\oauth2server\filters\auth;
 
-use \Yii;
+use filsh\yii2\oauth2server\Module;
 
 class CompositeAuth extends \yii\filters\auth\CompositeAuth
 {
@@ -11,7 +11,7 @@ class CompositeAuth extends \yii\filters\auth\CompositeAuth
      */
     public function beforeAction($action)
     {
-        $server = Yii::$app->getModule('oauth2')->getServer();
+        $server = Module::getInstance()->getServer();
         $server->verifyResourceRequest();
         
         return parent::beforeAction($action);
