@@ -4,7 +4,7 @@ namespace filsh\yii2\oauth2server;
 
 /**
  * Instead use bootstrap module
- * must be removed in v2.1
+ * should be removed in v2.1 version
  * 
  * @deprecated v2.0.1
  */
