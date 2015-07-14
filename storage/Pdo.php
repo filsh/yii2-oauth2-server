@@ -2,8 +2,6 @@
 
 namespace filsh\yii2\oauth2server\storage;
 
-use Yii;
-
 class Pdo extends \OAuth2\Storage\Pdo
 {
     public $dsn;
@@ -20,7 +18,7 @@ class Pdo extends \OAuth2\Storage\Pdo
             if($this->connection !== null && \Yii::$app->has($this->connection)) {
                 $db = \Yii::$app->get($this->connection);
                 if(!($db instanceof \yii\db\Connection)) {
-                    throw new \yii\base\InvalidConfigException;
+                    throw new \yii\base\InvalidConfigException('Connection component must implement \yii\db\Connection.');
                 }
                 
                 if(!$db->getIsActive()) {
