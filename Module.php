@@ -3,6 +3,7 @@
 namespace filsh\yii2\oauth2server;
 
 use \Yii;
+use yii\helpers\ArrayHelper;
 use yii\i18n\PhpMessageSource;
 
 /**
@@ -13,6 +14,9 @@ use yii\i18n\PhpMessageSource;
  *     'class' => 'filsh\yii2\oauth2server\Module',
  *     'tokenParamName' => 'accessToken',
  *     'tokenAccessLifetime' => 3600 * 24,
+ *     'serverConfig' => [
+ *         'allow_implicit' => true,
+ *     ],
  *     'storageMap' => [
  *         'user_credentials' => 'common\models\User',
  *     ],
@@ -68,6 +72,11 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      * @var integer Max refresh token lifetime in seconds
      */
     public $tokenRefreshLifetime;
+
+    /**
+     * @var array additional server configuration
+     */
+    public $serverConfig = [];
     
     /**
      * @inheritdoc
@@ -119,16 +128,17 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 $instance = $reflection->newInstanceArgs($config);
                 $grantTypes[$name] = $instance;
             }
+
+            $serverConfig = ArrayHelper::merge($this->serverConfig, [
+                'token_param_name' => $this->tokenParamName,
+                'access_lifetime' => $this->tokenAccessLifetime,
+                'refresh_token_lifetime' => $this->tokenRefreshLifetime,
+            ]);
             
             $server = \Yii::$container->get(Server::className(), [
                 $this,
                 $storages,
-                [
-                    'token_param_name' => $this->tokenParamName,
-                    'access_lifetime' => $this->tokenAccessLifetime,
-                    'refresh_token_lifetime' => $this->tokenRefreshLifetime,
-                    /** add more ... */
-                ],
+                $serverConfig,
                 $grantTypes,
                 $this->responseTypes
             ]);
