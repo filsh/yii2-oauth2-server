@@ -102,4 +102,19 @@ class Controller extends \yii\rest\Controller
 }
 ```
 
+To get access token (js example):
+
+```js
+var url = window.location.host + "/oauth2/token";
+var data = {
+    'grant_type':'password',
+    'username':'<some login from your user table>',
+    'password':'<real pass>',
+    'client_id':'testclient',
+    'client_secret':'testpass'
+};
+//ajax POST `data` to `url` here
+//
+```
+
 For more, see https://github.com/bshaffer/oauth2-server-php
