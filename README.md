@@ -27,8 +27,10 @@ To use this extension,  simply add the following code in your application config
 ```php
 'oauth2' => [
     'class' => 'filsh\yii2\oauth2server\Module',
-    'tokenParamName' => 'accessToken',
-    'tokenAccessLifetime' => 3600 * 24,
+    'options' => [
+        'token_param_name' => 'accessToken',
+        'access_lifetime' => 3600 * 24,
+    ],
     'storageMap' => [
         'user_credentials' => 'common\models\User',
     ],
