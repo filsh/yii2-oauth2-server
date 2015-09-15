@@ -59,7 +59,7 @@ add url rule to urlManager
 ```php
 'urlManager' => [
     'rules' => [
-        'POST oauth2/<action:\w+>' => 'oauth2/default/<action>',
+        'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
         ...
     ]
 ]
