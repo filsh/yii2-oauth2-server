@@ -155,6 +155,37 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     }
 
     /**
+     * @param $response
+     */
+    public function setResponse($response)
+    {
+        Yii::$app->response->setStatusCode($response->getStatusCode());
+        $headers = Yii::$app->response->getHeaders();
+
+        foreach ($response->getHttpHeaders() as $name => $value)
+            $headers->set($name, $value);
+    }
+
+    /**
+     * @param $is_authorized
+     * @param $user_id
+     * @return \OAuth2\ResponseInterface
+     * @throws \yii\base\InvalidConfigException
+     */
+    public function handleAuthorizeRequest($is_authorized, $user_id)
+    {
+        $response = $this->getServer()->handleAuthorizeRequest(
+            $this->getRequest(),
+            $this->getResponse(),
+            $is_authorized,
+            $user_id
+        );
+        $this->setResponse($response);
+
+        return $response;
+    }
+
+    /**
      * Register translations for this module
      * 
      * @return array
