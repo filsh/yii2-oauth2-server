@@ -162,23 +162,24 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
         Yii::$app->response->setStatusCode($response->getStatusCode());
         $headers = Yii::$app->response->getHeaders();
 
-        foreach ($response->getHttpHeaders() as $name => $value)
+        foreach ($response->getHttpHeaders() as $name => $value) {
             $headers->set($name, $value);
+        }
     }
 
     /**
-     * @param $is_authorized
-     * @param $user_id
+     * @param $isAuthorized
+     * @param $userId
      * @return \OAuth2\ResponseInterface
      * @throws \yii\base\InvalidConfigException
      */
-    public function handleAuthorizeRequest($is_authorized, $user_id)
+    public function handleAuthorizeRequest($isAuthorized, $userId)
     {
         $response = $this->getServer()->handleAuthorizeRequest(
             $this->getRequest(),
             $this->getResponse(),
-            $is_authorized,
-            $user_id
+            $isAuthorized,
+            $userId
         );
         $this->setResponse($response);
 
