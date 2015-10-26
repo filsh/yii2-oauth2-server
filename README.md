@@ -49,6 +49,12 @@ To use this extension,  simply add the following code in your application config
 
 ```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
 
+Additional OAuth2 Flags:
+
+```enforceState``` - Flag that switch that state controller should allow to use "state" param in the "Authorization Code" Grant Type
+
+```allowImplicit``` - Flag that switch that controller should allow the "implicit" grant type
+
 The next step your shold run migration
 
 ```php
@@ -134,6 +140,16 @@ class SiteController extends Controller
     }
 }
 ```
+
+Also if you set ```allowImplicit => true```  you can use Implicit Grant Type - [see more](http://bshaffer.github.io/oauth2-server-php-docs/grant-types/implicit/)
+
+Request example:
+
+`https://api.mysite.com/authorize?response_type=token&client_id=TestClient&redirect_uri=https://fake/cb`
+
+With redirect response:
+
+`https://fake/cb#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=bearer&expires_in=3600`
 
 
 For more, see https://github.com/bshaffer/oauth2-server-php
