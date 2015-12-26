@@ -25,26 +25,28 @@ to the require section of your composer.json.
 To use this extension,  simply add the following code in your application configuration:
 
 ```php
-'oauth2' => [
-    'class' => 'filsh\yii2\oauth2server\Module',
-    'options' => [
-        'token_param_name' => 'accessToken',
-        'access_lifetime' => 3600 * 24,
-    ],
-    'storageMap' => [
-        'user_credentials' => 'common\models\User',
-    ],
-    'grantTypes' => [
-        'user_credentials' => [
-            'class' => 'OAuth2\GrantType\UserCredentials',
-        ],
-        'refresh_token' => [
-            'class' => 'OAuth2\GrantType\RefreshToken',
-            'always_issue_new_refresh_token' => true
+'modules'=>[
+        //other modules .....
+        'oauth2' => [
+            'class' => 'filsh\yii2\oauth2server\Module',            
+            'tokenParamName' => 'access_token',
+            'tokenAccessLifetime' => 3600 * 24,
+            'storageMap' => [
+                'user_credentials' => 'app\models\User',
+            ],
+            'grantTypes' => [
+                'user_credentials' => [
+                    'class' => 'OAuth2\GrantType\UserCredentials',
+                ],
+                'refresh_token' => [
+                    'class' => 'OAuth2\GrantType\RefreshToken',
+                    'always_issue_new_refresh_token' => true
+                ]
+            ]
         ]
-    ]
-]
+    ],
 ```
+
 
 ```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
 
@@ -60,6 +62,7 @@ add url rule to urlManager
 
 ```php
 'urlManager' => [
+    'enablePrettyUrl' => true, //only if you want to use petty URLs
     'rules' => [
         'POST oauth2/<action:\w+>' => 'oauth2/rest/<action>',
         ...
