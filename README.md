@@ -22,14 +22,14 @@ or add
 
 to the require section of your composer.json.
 
-To use this extension,  simply add the following code in your application configuration:
+To use this extension,  simply add the following code in your application configuration as a new module:
 
 ```php
 'modules'=>[
         //other modules .....
         'oauth2' => [
             'class' => 'filsh\yii2\oauth2server\Module',            
-            'tokenParamName' => 'access_token',
+            'tokenParamName' => 'accessToken',
             'tokenAccessLifetime' => 3600 * 24,
             'storageMap' => [
                 'user_credentials' => 'app\models\User',
@@ -48,7 +48,54 @@ To use this extension,  simply add the following code in your application config
 ```
 
 
-```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
+Also, extend ```common\models\User``` - user model - implementing the interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table.
+You should implement:
+- findIdentityByAccessToken()
+- checkUserCredentials()
+- getUserDetails()
+
+You can extend the model if you prefer it (please, remember to update the config files) :
+```
+use Yii;
+
+class User extends common\models\User implements \OAuth2\Storage\UserCredentialsInterface
+{
+
+    /**
+     * Implemented for Oauth2 Interface
+     */
+    public static function findIdentityByAccessToken($token, $type = null)
+    {
+        /** @var \filsh\yii2\oauth2server\Module $module */
+        $module = Yii::$app->getModule('oauth2');
+        $token = $module->getServer()->getResourceController()->getToken();
+        return !empty($token['user_id'])
+                    ? static::findIdentity($token['user_id'])
+                    : null;
+    }
+
+    /**
+     * Implemented for Oauth2 Interface
+     */
+    public function checkUserCredentials($username, $password)
+    {
+        $user = static::findByUsername($username);
+        if (empty($user)) {
+            return false;
+        }
+        return $user->validatePassword($password);
+    }
+
+    /**
+     * Implemented for Oauth2 Interface
+     */
+    public function getUserDetails($username)
+    {
+        $user = static::findByUsername($username);
+        return ['user_id' => $user->getId()];
+    }
+}
+```
 
 The next step your shold run migration
 
