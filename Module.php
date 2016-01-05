@@ -4,6 +4,7 @@ namespace filsh\yii2\oauth2server;
 
 use \Yii;
 use yii\i18n\PhpMessageSource;
+use  \array_key_exists;
 
 /**
  * For example,
@@ -83,7 +84,7 @@ class Module extends \yii\base\Module
             
             if($this->useJwtToken)
             {
-                if(!isset(storageMap['access_token']) || storageMap['public_key']) {
+                if(!array_key_exists('access_token', $this->storageMap) || !array_key_exists('public_key', $this->storageMap)) {
                         throw new \yii\base\InvalidConfigException('access_token and public_key must be set or set useJwtToken to false');
                 }
                 //define dependencies when JWT is used instead of normal token
