@@ -151,5 +151,79 @@ With redirect response:
 
 `https://fake/cb#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=bearer&expires_in=3600`
 
+If you want to get Json Web Token (JWT) instead of convetional token, you will need to set `'useJwtToken' => true` in module and then define two more configurations: 
+`'public_key' => 'app\storage\PublicKeyStorage'` which is the class that implements [PublickKeyInterface](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/PublicKeyInterface.php) and `'access_token' => 'app\storage\JwtAccessToken'` which implements [JwtAccessTokenInterface.php](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessTokenInterface.php)
+
+For Oauth2 base library provides the default [access_token](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessToken.php) which works great except that it tries to save the token in the database. So I decided to inherit from it and override the part that tries to save (token size is too big and crashes with VARCHAR(40) in the database.
+
+TL;DR, here are the sample classes
+**access_token**
+```php
+<?php
+
+namespace app\storage;
+
+/**
+ *
+ * @author Stefano Mtangoo <mwinjilisti at gmail dot com>
+ */
+class JwtAccessToken extends \OAuth2\Storage\JwtAccessToken
+{  
+    public function setAccessToken($oauth_token, $client_id, $user_id, $expires, $scope = null)
+    {
+         
+    }
+
+    public function unsetAccessToken($access_token)
+    {
+        
+    } 
+}
+
+```
+
+and **public_key**
+
+```php
+<?php
+namespace app\storage;
+
+class PublicKeyStorage implements \OAuth2\Storage\PublicKeyInterface{
+
+
+    private $pbk =  null;
+    private $pvk =  null; 
+    
+    public function __construct()
+    {
+        //files should be in same directory as this file
+        //keys can be generated using OpenSSL tool with command: 
+        /*
+          private key:
+          openssl genrsa -out privkey.pem 2048
+
+          public key:
+          openssl rsa -in privkey.pem -pubout -out pubkey.pem
+        */
+        $this->pbk =  file_get_contents('privkey.pem', true); 
+        $this->pvk =  file_get_contents('pubkey.pem', true); 
+    }
+
+    public function getPublicKey($client_id = null){ 
+        return  $this->pbk;
+    }
+
+    public function getPrivateKey($client_id = null){ 
+        return  $this->pvk;
+    }
+
+    public function getEncryptionAlgorithm($client_id = null){
+        return 'HS256';
+    }
+
+}
+
+```
+
 
 For more, see https://github.com/bshaffer/oauth2-server-php
