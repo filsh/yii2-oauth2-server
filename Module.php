@@ -4,6 +4,7 @@ namespace filsh\yii2\oauth2server;
 
 use \Yii;
 use yii\i18n\PhpMessageSource;
+use  \array_key_exists;
 
 /**
  * For example,
@@ -28,10 +29,8 @@ use yii\i18n\PhpMessageSource;
  * ]
  * ```
  */
-class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
+class Module extends \yii\base\Module
 {
-    use BootstrapTrait;
-    
     const VERSION = '2.0.0';
     
     /**
@@ -48,48 +47,20 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
      * @var array GrantTypes collection
      */
     public $grantTypes = [];
-
-    /**
-     * @var array ResponseTypes collection
-     */
-    public $responseTypes = [];
     
     /**
-     * @var string Name of access token parameter
+     * @var string name of access token parameter
      */
     public $tokenParamName;
     
     /**
-     * @var integer Max access token lifetime in seconds
+     * @var type max access lifetime
      */
     public $tokenAccessLifetime;
-    
     /**
-     * @var integer Max refresh token lifetime in seconds
+     * @var whether to use JWT tokens
      */
-    public $tokenRefreshLifetime;
-
-    /**
-     * @var bool enforce state flag
-     */
-    public $enforceState;
-
-    /**
-     * @var bool allow_implicit flag
-     */
-    public $allowImplicit;
-    
-    /**
-     * @inheritdoc
-     */
-    public function bootstrap($app)
-    {
-        $this->initModule($this);
-        
-        if ($app instanceof \yii\console\Application) {
-            $this->controllerNamespace = 'filsh\yii2\oauth2server\commands';
-        }
-    }
+    public $useJwtToken = false;//ADDED
     
     /**
      * @inheritdoc
@@ -110,6 +81,21 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
     {
         if(!$this->has('server')) {
             $storages = [];
+            
+            if($this->useJwtToken)
+            {
+                if(!array_key_exists('access_token', $this->storageMap) || !array_key_exists('public_key', $this->storageMap)) {
+                        throw new \yii\base\InvalidConfigException('access_token and public_key must be set or set useJwtToken to false');
+                }
+                //define dependencies when JWT is used instead of normal token
+                \Yii::$container->clear('public_key'); //remove old definition
+                \Yii::$container->set('public_key', $this->storageMap['public_key']);
+                \Yii::$container->set('OAuth2\Storage\PublicKeyInterface', $this->storageMap['public_key']);
+
+                \Yii::$container->clear('access_token'); //remove old definition
+                \Yii::$container->set('access_token', $this->storageMap['access_token']);
+            }
+            
             foreach(array_keys($this->storageMap) as $name) {
                 $storages[$name] = \Yii::$container->get($name);
             }
@@ -134,15 +120,12 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
                 $this,
                 $storages,
                 [
+                    'use_jwt_access_tokens' => $this->useJwtToken,//ADDED
                     'token_param_name' => $this->tokenParamName,
                     'access_lifetime' => $this->tokenAccessLifetime,
-                    'refresh_token_lifetime' => $this->tokenRefreshLifetime,
-                    'enforce_state' => $this->enforceState,
-                    'allow_implicit' => $this->allowImplicit
                     /** add more ... */
                 ],
-                $grantTypes,
-                $this->responseTypes
+                $grantTypes
             ]);
 
             $this->set('server', $server);
@@ -164,38 +147,6 @@ class Module extends \yii\base\Module implements \yii\base\BootstrapInterface
             $this->set('response', new Response());
         }
         return $this->get('response');
-    }
-
-    /**
-     * @param $response
-     */
-    public function setResponse($response)
-    {
-        Yii::$app->response->setStatusCode($response->getStatusCode());
-        $headers = Yii::$app->response->getHeaders();
-
-        foreach ($response->getHttpHeaders() as $name => $value) {
-            $headers->set($name, $value);
-        }
-    }
-
-    /**
-     * @param $isAuthorized
-     * @param $userId
-     * @return \OAuth2\ResponseInterface
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function handleAuthorizeRequest($isAuthorized, $userId)
-    {
-        $response = $this->getServer()->handleAuthorizeRequest(
-            $this->getRequest(),
-            $this->getResponse(),
-            $isAuthorized,
-            $userId
-        );
-        $this->setResponse($response);
-
-        return $response;
     }
 
     /**
