@@ -22,6 +22,13 @@ or add
 
 to the require section of your composer.json.
 
+To use the latest features (Like JWT tokens), you need to use 2.0.1 branch.
+Edit your compose.json and add
+
+```json
+"filsh/yii2-oauth2-server": "2.0.1.x-dev"
+```
+
 To use this extension,  simply add the following code in your application configuration:
 
 ```php
@@ -150,37 +157,11 @@ Request example:
 With redirect response:
 
 `https://fake/cb#access_token=2YotnFZFEjr1zCsicMWpAA&state=xyz&token_type=bearer&expires_in=3600`
-
+### JWT Tokens (2.0.1 branch only)
 If you want to get Json Web Token (JWT) instead of convetional token, you will need to set `'useJwtToken' => true` in module and then define two more configurations: 
-`'public_key' => 'app\storage\PublicKeyStorage'` which is the class that implements [PublickKeyInterface](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/PublicKeyInterface.php) and `'access_token' => 'app\storage\JwtAccessToken'` which implements [JwtAccessTokenInterface.php](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessTokenInterface.php)
+`'public_key' => 'app\storage\PublicKeyStorage'` which is the class that implements [PublickKeyInterface](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/PublicKeyInterface.php) and `'access_token' => 'OAuth2\Storage\JwtAccessToken'` which implements [JwtAccessTokenInterface.php](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessTokenInterface.php)
 
-For Oauth2 base library provides the default [access_token](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessToken.php) which works great except that it tries to save the token in the database. So I decided to inherit from it and override the part that tries to save (token size is too big and crashes with VARCHAR(40) in the database.
-
-TL;DR, here are the sample classes
-**access_token**
-```php
-<?php
-
-namespace app\storage;
-
-/**
- *
- * @author Stefano Mtangoo <mwinjilisti at gmail dot com>
- */
-class JwtAccessToken extends \OAuth2\Storage\JwtAccessToken
-{  
-    public function setAccessToken($oauth_token, $client_id, $user_id, $expires, $scope = null)
-    {
-         
-    }
-
-    public function unsetAccessToken($access_token)
-    {
-        
-    } 
-}
-
-```
+For Oauth2 base library provides the default [access_token](https://github.com/bshaffer/oauth2-server-php/blob/develop/src/OAuth2/Storage/JwtAccessToken.php) which works great except. Just use it and everything will be fine.
 
 and **public_key**
 
@@ -196,17 +177,8 @@ class PublicKeyStorage implements \OAuth2\Storage\PublicKeyInterface{
     
     public function __construct()
     {
-        //files should be in same directory as this file
-        //keys can be generated using OpenSSL tool with command: 
-        /*
-          private key:
-          openssl genrsa -out privkey.pem 2048
-
-          public key:
-          openssl rsa -in privkey.pem -pubout -out pubkey.pem
-        */
-        $this->pbk =  file_get_contents('privkey.pem', true); 
-        $this->pvk =  file_get_contents('pubkey.pem', true); 
+        $this->pvk =  file_get_contents('privkey.pem', true);
+        $this->pbk =  file_get_contents('pubkey.pem', true); 
     }
 
     public function getPublicKey($client_id = null){ 
@@ -218,12 +190,12 @@ class PublicKeyStorage implements \OAuth2\Storage\PublicKeyInterface{
     }
 
     public function getEncryptionAlgorithm($client_id = null){
-        return 'HS256';
+        return 'RS256';
     }
 
 }
 
-```
+``` 
 
 
 For more, see https://github.com/bshaffer/oauth2-server-php
