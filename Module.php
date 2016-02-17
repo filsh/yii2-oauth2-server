@@ -49,6 +49,11 @@ class Module extends \yii\base\Module
     public $grantTypes = [];
     
     /**
+     * @var array server options
+     */
+    public $options = [];
+
+    /**
      * @var string name of access token parameter
      */
     public $tokenParamName;
@@ -119,12 +124,12 @@ class Module extends \yii\base\Module
             $server = \Yii::$container->get(Server::className(), [
                 $this,
                 $storages,
-                [
+                array_merge(array_filter([
                     'use_jwt_access_tokens' => $this->useJwtToken,//ADDED
                     'token_param_name' => $this->tokenParamName,
                     'access_lifetime' => $this->tokenAccessLifetime,
                     /** add more ... */
-                ],
+                ]), $this->options),
                 $grantTypes
             ]);
 
