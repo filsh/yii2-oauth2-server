@@ -109,7 +109,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
 
             // insert client data
             $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
-                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit'],
+                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit refresh_token'],
             ]);
 
             $transaction->commit();
