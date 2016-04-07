@@ -38,6 +38,14 @@ class Server extends \OAuth2\Server
         }
         return parent::handleTokenRequest($request, $response);
     }
+    
+    public function handleRevokeRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null)
+    {
+        if($request === null) {
+            $request = $this->module->getRequest();
+        }
+        return parent::handleRevokeRequest($request, $response);
+    }
 
     public function handleAuthorizeRequest(\OAuth2\RequestInterface $request = null, \OAuth2\ResponseInterface $response = null, $isAuthorized = false, $userId = null)
     {
