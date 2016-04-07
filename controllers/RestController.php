@@ -26,4 +26,11 @@ class RestController extends \yii\rest\Controller
         $response = $this->module->getServer()->handleTokenRequest();
         return $response->getParameters();
     }
+    
+    public function actionRevoke()
+    {
+        /** @var $response \OAuth2\Response */
+        $response = $this->module->getServer()->handleRevokeRequest();
+        return $response->getParameters();
+    }
 }
