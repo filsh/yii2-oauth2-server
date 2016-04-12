@@ -28,4 +28,13 @@ class DefaultController extends \yii\rest\Controller
         
         return $response->getParameters();
     }
+    
+    public function actionRevoke()
+    {
+        $server = $this->module->getServer();
+        $request = $this->module->getRequest();
+        $response = $server->handleRevokeRequest($request);
+        
+        return $response->getParameters();
+    }
 }
