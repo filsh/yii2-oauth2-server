@@ -73,7 +73,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'authorization_code' => Schema::TYPE_STRING . '(40) NOT NULL',
                 'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
                 'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-                'redirect_uri' => Schema::TYPE_STRING . '(1000) NOT NULL',
+                'redirect_uri' => Schema::TYPE_STRING . '(1000)',
                 'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
                 $this->buildPrimaryKey('authorization_code'),
