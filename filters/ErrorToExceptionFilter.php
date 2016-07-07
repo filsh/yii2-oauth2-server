@@ -9,7 +9,23 @@ class ErrorToExceptionFilter extends \yii\base\Behavior
 {
     public function events()
     {
-        return [Controller::EVENT_AFTER_ACTION => 'afterAction'];
+        return [
+            Controller::EVENT_AFTER_ACTION => 'afterAction',
+            Controller::EVENT_BEFORE_ACTION => 'beforeAction'
+        ];
+    }
+
+    /**
+     * @param ActionEvent $event
+     */
+    public function beforeAction($event)
+    {
+        $response = Yii::$app->getModule('oauth2')->getServer()->getResponse();
+        $optional = $event->action->controller->getBehavior('authenticator')->optional;
+        $currentAction = $event->action->id;
+        if (in_array($currentAction, $optional) && $response->statusCode == 401) {
+            Yii::$app->user->logout();
+        }
     }
 
     /**
