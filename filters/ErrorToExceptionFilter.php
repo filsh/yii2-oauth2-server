@@ -23,7 +23,7 @@ class ErrorToExceptionFilter extends \yii\base\Behavior
         $response = Yii::$app->getModule('oauth2')->getServer()->getResponse();
         $optional = $event->action->controller->getBehavior('authenticator')->optional;
         $currentAction = $event->action->id;
-        if (in_array($currentAction, $optional) && $response->statusCode == 401) {
+        if (in_array($currentAction, $optional) && $response->getStatusCode() == 401) {
             Yii::$app->user->logout();
         }
     }
