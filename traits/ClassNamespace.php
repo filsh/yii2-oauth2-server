@@ -1,6 +1,6 @@
 <?php
 
-namespace filsh\yii2\oauth2server\traits;
+namespace dixonsatit\yii2\oauth2server\traits;
 
 trait ClassNamespace
 {

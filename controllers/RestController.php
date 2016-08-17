@@ -1,10 +1,10 @@
 <?php
 
-namespace filsh\yii2\oauth2server\controllers;
+namespace dixonsatit\yii2\oauth2server\controllers;
 
 use Yii;
 use yii\helpers\ArrayHelper;
-use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
+use dixonsatit\yii2\oauth2server\filters\ErrorToExceptionFilter;
 
 class RestController extends \yii\rest\Controller
 {
@@ -26,7 +26,7 @@ class RestController extends \yii\rest\Controller
         $response = $this->module->getServer()->handleTokenRequest();
         return $response->getParameters();
     }
-    
+
     public function actionRevoke()
     {
         /** @var $response \OAuth2\Response */

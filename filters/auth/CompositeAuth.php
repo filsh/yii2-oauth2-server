@@ -1,8 +1,8 @@
 <?php
 
-namespace filsh\yii2\oauth2server\filters\auth;
+namespace dixonsatit\yii2\oauth2server\filters\auth;
 
-use filsh\yii2\oauth2server\Module;
+use dixonsatit\yii2\oauth2server\Module;
 
 class CompositeAuth extends \yii\filters\auth\CompositeAuth
 {
@@ -13,7 +13,7 @@ class CompositeAuth extends \yii\filters\auth\CompositeAuth
     {
         $server = Module::getInstance()->getServer();
         $server->verifyResourceRequest();
-        
+
         return parent::beforeAction($action);
     }
 }

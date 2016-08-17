@@ -1,17 +1,17 @@
 <?php
 
-namespace filsh\yii2\oauth2server\storage;
+namespace dixonsatit\yii2\oauth2server\storage;
 
 class Pdo extends \OAuth2\Storage\Pdo
 {
     public $dsn;
-    
+
     public $username;
-    
+
     public $password;
-    
+
     public $connection = 'db';
-    
+
     public function __construct($connection = null, $config = array())
     {
         if($connection === null) {
@@ -20,11 +20,11 @@ class Pdo extends \OAuth2\Storage\Pdo
                 if(!($db instanceof \yii\db\Connection)) {
                     throw new \yii\base\InvalidConfigException('Connection component must implement \yii\db\Connection.');
                 }
-                
+
                 if(!$db->getIsActive()) {
                     $db->open();
                 }
-                
+
                 $connection = $db->pdo;
                 $config = array_merge(array(
                     'client_table' => $db->tablePrefix . 'oauth_clients',
@@ -37,7 +37,7 @@ class Pdo extends \OAuth2\Storage\Pdo
                     'scope_table'  => $db->tablePrefix . 'oauth_scopes',
                     'public_key_table'  => $db->tablePrefix . 'oauth_public_keys',
                 ), $config);
-                
+
             } else {
                 $connection = [
                     'dsn' => $this->dsn,
@@ -46,7 +46,7 @@ class Pdo extends \OAuth2\Storage\Pdo
                 ];
             }
         }
-        
+
         parent::__construct($connection, $config);
     }
 }

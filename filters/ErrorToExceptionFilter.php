@@ -1,11 +1,11 @@
 <?php
 
-namespace filsh\yii2\oauth2server\filters;
+namespace dixonsatit\yii2\oauth2server\filters;
 
 use Yii;
 use yii\base\Controller;
-use filsh\yii2\oauth2server\Module;
-use filsh\yii2\oauth2server\exceptions\HttpException;
+use dixonsatit\yii2\oauth2server\Module;
+use dixonsatit\yii2\oauth2server\exceptions\HttpException;
 
 class ErrorToExceptionFilter extends \yii\base\Behavior
 {
@@ -34,7 +34,7 @@ class ErrorToExceptionFilter extends \yii\base\Behavior
             throw new HttpException($response->getStatusCode(), $this->getErrorMessage($response), $response->getParameter('error_uri'));
         }
     }
-    
+
     protected function getErrorMessage(\OAuth2\Response $response)
     {
         $message = Module::t('common', $response->getParameter('error_description'));
