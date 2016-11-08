@@ -33,4 +33,10 @@ class RestController extends \yii\rest\Controller
         $response = $this->module->getServer()->handleRevokeRequest();
         return $response->getParameters();
     }
+
+    public function actionUserInfo()
+    {
+        $response = $this->module->getServer()->handleUserInfoRequest();
+        return $response->getParameters();
+    }
 }
