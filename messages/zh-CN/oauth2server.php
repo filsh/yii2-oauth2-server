@@ -35,7 +35,7 @@ return [
     'The authorization code has expired' => '授权码已过期',
     'The client credentials are invalid' => '客户端凭据无效',
     'The client id supplied is invalid' => '所提供的客户端ID无效',
-    'The content type for POST requests must be "application/x-www-form-urlencoded"' => 'POST请求的内容类型必须为“application / x-www-form-urlencoded”',
+    'The content type for POST requests must be "application/x-www-form-urlencoded"' => 'POST请求的内容类型必须为“application/x-www-form-urlencoded”',
     'The grant type is unauthorized for this client_id' => '授权类型未授权此client_id',
     'The grant type was not specified in the request' => '请求中未指定授权类型',
     'The redirect URI is mandatory and was not supplied' => '重定向URI是必需的，未提供',

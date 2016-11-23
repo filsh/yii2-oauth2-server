@@ -35,7 +35,7 @@ return [
     'The authorization code has expired' => '客戶端憑據無效',
     'The client credentials are invalid' => '客戶端憑據無效',
     'The client id supplied is invalid' => '提供的客戶端ID無效',
-    'The content type for POST requests must be "application/x-www-form-urlencoded"' => 'POST請求的內容類型必須為“application / x-www-form-urlencoded”',
+    'The content type for POST requests must be "application/x-www-form-urlencoded"' => 'POST請求的內容類型必須為“application/x-www-form-urlencoded”',
     'The grant type is unauthorized for this client_id' => '授權類型未授權此client_id',
     'The grant type was not specified in the request' => '請求中未指定授權類型',
     'The redirect URI is mandatory and was not supplied' => '重定向URI是必需的，未提供',
