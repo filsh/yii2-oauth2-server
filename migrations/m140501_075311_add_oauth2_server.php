@@ -9,11 +9,11 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
         return $this->db->driverName === 'mysql' ? $yes : $no;
     }
 
-    public function buildPrimaryKey($columns = null) {
+    public function setPrimaryKey($columns) {
         return 'PRIMARY KEY (' . $this->db->getQueryBuilder()->buildColumns($columns) . ')';
     }
 
-    public function buildForeignKey($columns,$refTable,$refColumns,$onDelete = null,$onUpdate = null) {
+    public function foreignKey($columns,$refTable,$refColumns,$onDelete = null,$onUpdate = null) {
         $builder = $this->db->getQueryBuilder();
         $sql = ' FOREIGN KEY (' . $builder->buildColumns($columns) . ')'
             . ' REFERENCES ' . $this->db->quoteTableName($refTable)
@@ -46,7 +46,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'grant_types' => Schema::TYPE_STRING . '(100) NOT NULL',
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
                 'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
-                $this->buildPrimaryKey('client_id'),
+                $this->setPrimaryKey('client_id'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_access_tokens}}', [
@@ -55,8 +55,8 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
                 'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
-                $this->buildPrimaryKey('access_token'),
-                $this->buildForeignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
+                $this->setPrimaryKey('access_token'),
+                $this->foreignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_refresh_tokens}}', [
@@ -65,8 +65,8 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'user_id' => Schema::TYPE_INTEGER . ' DEFAULT NULL',
                 'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
-                $this->buildPrimaryKey('refresh_token'),
-                $this->buildForeignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
+                $this->setPrimaryKey('refresh_token'),
+                $this->foreignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_authorization_codes}}', [
@@ -76,8 +76,8 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'redirect_uri' => Schema::TYPE_STRING . '(1000) NOT NULL',
                 'expires' => Schema::TYPE_TIMESTAMP . " NOT NULL DEFAULT $now $on_update_now",
                 'scope' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
-                $this->buildPrimaryKey('authorization_code'),
-                $this->buildForeignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
+                $this->setPrimaryKey('authorization_code'),
+                $this->foreignKey('client_id','{{%oauth_clients}}','client_id','CASCADE','CASCADE'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_scopes}}', [
@@ -89,7 +89,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'client_id' => Schema::TYPE_STRING . '(32) NOT NULL',
                 'subject' => Schema::TYPE_STRING . '(80) DEFAULT NULL',
                 'public_key' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
-                $this->buildPrimaryKey('client_id'),
+                $this->setPrimaryKey('client_id'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_users}}', [
@@ -97,7 +97,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
                 'password' => Schema::TYPE_STRING . '(2000) DEFAULT NULL',
                 'first_name' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
                 'last_name' => Schema::TYPE_STRING . '(255) DEFAULT NULL',
-                $this->buildPrimaryKey('username'),
+                $this->setPrimaryKey('username'),
             ], $tableOptions);
 
             $this->createTable('{{%oauth_public_keys}}', [
@@ -109,7 +109,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
 
             // insert client data
             $this->batchInsert('{{%oauth_clients}}', ['client_id', 'client_secret', 'redirect_uri', 'grant_types'], [
-                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit refresh_token'],
+                ['testclient', 'testpass', 'http://fake/', 'client_credentials authorization_code password implicit'],
             ]);
 
             $transaction->commit();
