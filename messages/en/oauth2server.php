@@ -49,7 +49,6 @@ return [
     'This application requires you specify a scope parameter' => 'This application requires you specify a scope parameter',
     'This client is invalid or must authenticate using a client secret' => 'This client is invalid or must authenticate using a client secret',
     'Unable to retrieve user information' => 'Unable to retrieve user information',
-    'Unable to retrieve user information' => 'Unable to retrieve user information',
     'When putting the token in the body, the method must be POST' => 'When putting the token in the body, the method must be POST',
     'you must set the user_id on the array returned by getUserDetails' => 'you must set the user_id on the array returned by getUserDetails',
 ];
