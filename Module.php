@@ -107,7 +107,8 @@ class Module extends \yii\base\Module
             
             $grantTypes = [];
             foreach($this->grantTypes as $name => $options) {
-                if(!isset($storages[$name]) || empty($options['class'])) {
+                $storageName = !empty($options['storageName']) ? $options['storageName'] : $name;
+                if(!isset($storages[$storageName]) || empty($options['class'])) {
                     throw new \yii\base\InvalidConfigException('Invalid grant types configuration.');
                 }
 
@@ -115,7 +116,7 @@ class Module extends \yii\base\Module
                 unset($options['class']);
 
                 $reflection = new \ReflectionClass($class);
-                $config = array_merge([0 => $storages[$name]], [$options]);
+                $config = array_merge([0 => $storages[$storageName]], [$options]);
 
                 $instance = $reflection->newInstanceArgs($config);
                 $grantTypes[$name] = $instance;
