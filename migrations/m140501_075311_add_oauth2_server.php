@@ -9,7 +9,7 @@ class m140501_075311_add_oauth2_server extends \yii\db\Migration
         return $this->db->driverName === 'mysql' ? $yes : $no;
     }
 
-    public function setPrimaryKey($columns) {
+    public function setPrimaryKey($columns = null) {
         return 'PRIMARY KEY (' . $this->db->getQueryBuilder()->buildColumns($columns) . ')';
     }
 
