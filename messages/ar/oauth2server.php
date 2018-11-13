@@ -10,7 +10,7 @@ return [
     'Invalid issuer (iss) or subject (sub) provided' => 'المصدر (iss) أو العنوان (sub) غير صحيحان',
     'Invalid issuer (iss) provided' => 'المصدر (iss) غير صحيح',
     'Invalid refresh token' => 'رمز تجديد غير صالح',
-    'Invalid subject (sub) provided' => 'العنوان المقدم (sub) عير صحيح',
+    'Invalid subject (sub) provided' => 'العنوان المقدم (sub) غير صحيح',
     'Invalid user authkey' => 'مفتاح التحقق غير صالح',
     'Invalid username and password combination' => 'اسم المستخدم وكلمة المرور غير صحيحان',
     'JSON Token Identifier (jti) has already been used' => 'معرف رمز ال JSON تم إستخدامه بالفعل',
