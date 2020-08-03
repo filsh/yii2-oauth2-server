@@ -2,8 +2,6 @@
 
 namespace filsh\yii2\oauth2server\models;
 
-use Yii;
-
 /**
  * This is the model class for table "oauth_scopes".
  *
