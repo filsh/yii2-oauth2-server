@@ -1,0 +1,7 @@
+FROM vardan/ubuntu:php-7.2
+
+ENV PHP_DOCUMENT_ROOT /app
+
+ENV WORK_DIR ${PHP_DOCUMENT_ROOT}
+
+WORKDIR ${WORK_DIR}

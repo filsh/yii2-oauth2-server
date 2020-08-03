@@ -1,0 +1,12 @@
+version: "3"
+services:
+  php:
+    image: filsh/yii2-oauth2-server
+    build:
+      dockerfile: Dockerfile.dev
+      context: .
+    volumes:
+      - ".:/app"
+
+networks:
+  default:

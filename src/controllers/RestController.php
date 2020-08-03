@@ -2,9 +2,8 @@
 
 namespace filsh\yii2\oauth2server\controllers;
 
-use Yii;
-use yii\helpers\ArrayHelper;
 use filsh\yii2\oauth2server\filters\ErrorToExceptionFilter;
+use yii\helpers\ArrayHelper;
 
 class RestController extends \yii\rest\Controller
 {
