@@ -10,24 +10,18 @@ The preferred way to install this extension is through [composer](http://getcomp
 
 Either run
 
-```
+```shell script
 php composer.phar require --prefer-dist filsh/yii2-oauth2-server "*"
 ```
 
 or add
 
 ```json
-"filsh/yii2-oauth2-server": "~2.0"
+"filsh/yii2-oauth2-server": "^2.0"
 ```
 
 to the require section of your composer.json.
 
-To use the latest features (Like JWT tokens), you need to use 2.0.1 branch.
-Edit your compose.json and add
-
-```json
-"filsh/yii2-oauth2-server": "2.0.1.x-dev"
-```
 
 To use this extension,  simply add the following code in your application configuration:
 
@@ -148,7 +142,7 @@ class SiteController extends Controller
 }
 ```
 
-Also if you set ```allowImplicit => true```  you can use Implicit Grant Type - [see more](http://bshaffer.github.io/oauth2-server-php-docs/grant-types/implicit/)
+Also, if you set ```allowImplicit => true```  you can use Implicit Grant Type - [see more](http://bshaffer.github.io/oauth2-server-php-docs/grant-types/implicit/)
 
 Request example:
 
@@ -199,3 +193,6 @@ class PublicKeyStorage implements \OAuth2\Storage\PublicKeyInterface{
 
 
 For more, see https://github.com/bshaffer/oauth2-server-php
+
+# Authors & Contributors
+The original author of this package [Igor Maliy](https://github.com/filsh) . At the time the project maintainer is [Vardan Pogosian](https://vardan.dev).
