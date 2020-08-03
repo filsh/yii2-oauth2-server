@@ -17,7 +17,7 @@
     ],
     "require": {
         "yiisoft/yii2": "*",
-        "bshaffer/oauth2-server-php": "v1.3"
+        "bshaffer/oauth2-server-php": "~1.7"
     },
     "autoload": {
         "psr-4": {
@@ -25,6 +25,7 @@
         }
     },
     "extra": {
+        "bootstrap": "filsh\\yii2\\oauth2server\\Bootstrap",
         "branch-alias": {
             "dev-master": "1.0.x-dev"
         }
