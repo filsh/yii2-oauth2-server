@@ -58,7 +58,6 @@ class Module extends \yii\base\Module
      * @var string name of access token parameter
      */
     public $tokenParamName;
-    
     /**
      * @var type max access lifetime
      */
@@ -66,8 +65,9 @@ class Module extends \yii\base\Module
     /**
      * @var whether to use JWT tokens
      */
-    public $useJwtToken = false;//ADDED
-    
+    public $useJwtToken = false;
+
+
     /**
      * @inheritdoc
      */
@@ -126,7 +126,7 @@ class Module extends \yii\base\Module
                 $this,
                 $storages,
                 array_merge(array_filter([
-                    'use_jwt_access_tokens' => $this->useJwtToken,//ADDED
+                    'use_jwt_access_tokens' => $this->useJwtToken,
                     'token_param_name' => $this->tokenParamName,
                     'access_lifetime' => $this->tokenAccessLifetime,
                     /** add more ... */
