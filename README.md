@@ -50,19 +50,17 @@ To use this extension,  simply add the following code in your application config
 
 ```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
 
-Additional OAuth2 Flags:
+You can pass additional OAuth2 Server Options by setting `options` property on the module. Some of them are implemented as standalone properties on the module: `tokenParamName`, `tokenAccessLifetime`, `useJwtToken`. For a full list of the supported options go to the - [source code](https://github.com/bshaffer/oauth2-server-php/blob/5a0c8000d4763b276919e2106f54eddda6bc50fa/src/OAuth2/Server.php#L162).
 
-```enforceState``` - Flag that switch that state controller should allow to use "state" param in the "Authorization Code" Grant Type
 
-```allowImplicit``` - Flag that switch that controller should allow the "implicit" grant type
 
-The next step your shold run migration
+The next step you should run migration
 
 ```php
 yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations
 ```
 
-this migration create the oauth2 database scheme and insert test user credentials ```testclient:testpass``` for ```http://fake/```
+this migration creates the oauth2 database scheme and insert test user credentials ```testclient:testpass``` for ```http://fake/```
 
 add url rule to urlManager
 
@@ -142,7 +140,7 @@ class SiteController extends Controller
 }
 ```
 
-Also, if you set ```allowImplicit => true```  you can use Implicit Grant Type - [see more](http://bshaffer.github.io/oauth2-server-php-docs/grant-types/implicit/)
+Also, if you set ```allow_implicit => true``` in the ```options``` property of the module, you can use Implicit Grant Type - [see more](http://bshaffer.github.io/oauth2-server-php-docs/grant-types/implicit/)
 
 Request example:
 
