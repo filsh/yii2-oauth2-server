@@ -1,37 +1,49 @@
 {
-    "name": "filsh/yii2-oauth2-server",
-    "description": "OAuth2 Server for PHP",
-    "keywords": ["yii", "extension", "module", "oauth", "oauth2"],
-    "homepage": "https://github.com/filsh/yii2-oauth2-server",
-    "type": "yii2-extension",
-    "license": "MIT",
-    "support": {
-        "email": "imaliy.filsh@gmail.com",
-        "source": "https://github.com/filsh/yii2-oauth2-server"
+  "name": "filsh/yii2-oauth2-server",
+  "description": "OAuth2 Server for PHP",
+  "keywords": [
+    "yii",
+    "extension",
+    "module",
+    "oauth",
+    "oauth2"
+  ],
+  "homepage": "https://github.com/filsh/yii2-oauth2-server",
+  "type": "yii2-extension",
+  "license": "MIT",
+  "support": {
+    "email": "imaliy.filsh@gmail.com",
+    "source": "https://github.com/filsh/yii2-oauth2-server"
+  },
+  "authors": [
+    {
+      "name": "Igor Maliy",
+      "email": "imaliy.filsh@gmail.com"
     },
-    "authors": [
-        {
-            "name": "Igor Maliy",
-            "email": "imaliy.filsh@gmail.com"
-        },
-        {
-            "name": "Vardan Pogosian",
-            "email": "vardan.pogosyan@gmail.com"
-        }
-    ],
-    "require": {
-        "yiisoft/yii2": "*",
-        "bshaffer/oauth2-server-php": "^1.7"
-    },
-    "autoload": {
-        "psr-4": {
-            "filsh\\yii2\\oauth2server\\": "src/"
-        }
-    },
-    "extra": {
-        "bootstrap": "filsh\\yii2\\oauth2server\\Bootstrap",
-        "branch-alias": {
-            "dev-master": "2.1.x-dev"
-        }
+    {
+      "name": "Vardan Pogosian",
+      "email": "vardan.pogosyan@gmail.com"
     }
+  ],
+  "require": {
+    "yiisoft/yii2": "*",
+    "bshaffer/oauth2-server-php": "^1.7"
+  },
+  "autoload": {
+    "psr-4": {
+      "filsh\\yii2\\oauth2server\\": "src/"
+    }
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
+  "extra": {
+    "bootstrap": "filsh\\yii2\\oauth2server\\Bootstrap",
+    "branch-alias": {
+      "dev-master": "2.1.x-dev"
+    }
+  }
 }
