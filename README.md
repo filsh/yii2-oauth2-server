@@ -57,7 +57,7 @@ You can pass additional OAuth2 Server Options by setting `options` property on t
 The next step you should run migration
 
 ```php
-yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/migrations
+yii migrate --migrationPath=@vendor/filsh/yii2-oauth2-server/src/migrations
 ```
 
 this migration creates the oauth2 database scheme and insert test user credentials ```testclient:testpass``` for ```http://fake/```
