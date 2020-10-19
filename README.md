@@ -130,7 +130,7 @@ class SiteController extends Controller
     
         /** @var $module \filsh\yii2\oauth2server\Module */
         $module = Yii::$app->getModule('oauth2');
-        $response = $module->handleAuthorizeRequest(!Yii::$app->getUser()->getIsGuest(), Yii::$app->getUser()->getId());
+        $response = $module->getServer()->handleAuthorizeRequest(null, null, !Yii::$app->getUser()->getIsGuest(), Yii::$app->getUser()->getId());
     
         /** @var object $response \OAuth2\Response */
         Yii::$app->getResponse()->format = \yii\web\Response::FORMAT_JSON;
