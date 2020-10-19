@@ -1,10 +1,8 @@
-yii2-oauth2-server
-==================
+# yii2-oauth2-server
 
 A wrapper for implementing an OAuth2 Server(https://github.com/bshaffer/oauth2-server-php)
 
-Installation
-------------
+## Installation
 
 The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
 
@@ -20,7 +18,7 @@ or add
 "filsh/yii2-oauth2-server": "^2.0"
 ```
 
-to the require section of your composer.json.
+to the `require` section of your composer.json.
 
 
 To use this extension,  simply add the following code in your application configuration:
@@ -50,10 +48,6 @@ To use this extension,  simply add the following code in your application config
 
 ```common\models\User``` - user model implementing an interface ```\OAuth2\Storage\UserCredentialsInterface```, so the oauth2 credentials data stored in user table
 
-You can pass additional OAuth2 Server Options by setting `options` property on the module. Some of them are implemented as standalone properties on the module: `tokenParamName`, `tokenAccessLifetime`, `useJwtToken`. For a full list of the supported options go to the - [source code](https://github.com/bshaffer/oauth2-server-php/blob/5a0c8000d4763b276919e2106f54eddda6bc50fa/src/OAuth2/Server.php#L162).
-
-
-
 The next step you should run migration
 
 ```php
@@ -73,8 +67,18 @@ add url rule to urlManager
 ]
 ```
 
-Usage
------
+
+## Configuration
+
+You can pass additional OAuth2 Server options by setting `options` property on the module. These options configure as the underlying OAuth2 Server also as various parts/components of [bshaffer/oauth2-server-php](https://github.com/bshaffer/oauth2-server-php).
+As an example, you can configure authorization code lifetime in a response by setting `auth_code_lifetime` option.
+Some of them are implemented as standalone properties on the module: `tokenParamName` => `use_jwt_access_tokens`, `tokenAccessLifetime` => `token_param_name`, `useJwtToken` => `access_lifetime`. 
+Full list of options are supported by the underlying OAuth2 Server main component - [source code](https://github.com/bshaffer/oauth2-server-php/blob/5a0c8000d4763b276919e2106f54eddda6bc50fa/src/OAuth2/Server.php#L162). Options for various components spread across [bshaffer/oauth2-server-php](https://github.com/bshaffer/oauth2-server-php) source code.
+
+
+
+
+# Usage
 
 To use this extension,  simply add the behaviors for your base controller:
 
