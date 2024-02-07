@@ -27,7 +27,7 @@
   ],
   "require": {
     "yiisoft/yii2": "*",
-    "bshaffer/oauth2-server-php": "dev-master"
+    "bshaffer/oauth2-server-php": "main"
   },
   "autoload": {
     "psr-4": {
