@@ -27,7 +27,7 @@
   ],
   "require": {
     "yiisoft/yii2": "*",
-    "bshaffer/oauth2-server-php": "^1.7"
+    "bshaffer/oauth2-server-php": "dev-fix-open-id-for-user-claim as v1.12.0"
   },
   "autoload": {
     "psr-4": {
@@ -35,6 +35,10 @@
     }
   },
   "repositories": [
+    {
+      "type": "git",
+      "url": "https://github.com/ahmadfadlydziljalal/oauth2-server-php"
+    },
     {
       "type": "composer",
       "url": "https://asset-packagist.org"
