@@ -27,7 +27,7 @@
   ],
   "require": {
     "yiisoft/yii2": "*",
-    "bshaffer/oauth2-server-php": "dev-fixed-openid-for-user-claim"
+    "bshaffer/oauth2-server-php": "0.0.0.*"
   },
   "autoload": {
     "psr-4": {
