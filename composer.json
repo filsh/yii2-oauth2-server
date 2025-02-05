@@ -1,6 +1,6 @@
 {
-  "name": "filsh/yii2-oauth2-server",
-  "description": "OAuth2 Server for PHP",
+  "name": "xunlight/yii2-oauth2-server",
+  "description": "OAuth2 Server for PHP, fork from filsh/yii2-oauth2-server",
   "keywords": [
     "yii",
     "extension",
